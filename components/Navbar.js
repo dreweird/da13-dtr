@@ -11,7 +11,7 @@ const Navbar = () => {
         className="lg:text-xl p-2 mr-4 inline-flex items-center font-serif font-bold"
       >
         <Link href="/">
-          <a>NextJS with Tailwind</a>
+          NextJS with Tailwind
         </Link>
       </div>
       <button
@@ -38,20 +38,20 @@ const Navbar = () => {
           }
         >
           <Link href="/">
-            <a className="lg:inline-flex lg:w-auto px-3 py-2 rounded hover:bg-blue-800 ">
+            <span className="lg:inline-flex lg:w-auto px-3 py-2 rounded hover:bg-blue-800 ">
               Home
-            </a>
+            </span>
           </Link>
 
           <Link href="/about">
-            <a className="lg:inline-flex lg:w-auto px-3 py-2 rounded hover:bg-blue-800 ">
+            <span className="lg:inline-flex lg:w-auto px-3 py-2 rounded hover:bg-blue-800 ">
               About
-            </a>
+            </span>
           </Link>
           <Link href="/contact">
-            <a className="lg:inline-flex lg:w-auto px-3 py-2 rounded hover:bg-blue-800 ">
+            <span className="lg:inline-flex lg:w-auto px-3 py-2 rounded hover:bg-blue-800 ">
               Contact Us
-            </a>
+            </span>
           </Link>
         </div>
       </div>

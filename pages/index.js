@@ -1,4 +1,5 @@
 import Layout from "../components/Layout";
+import Link from 'next/link'
 
 const index = () => {
   const metaInfo = {
@@ -15,13 +16,13 @@ const index = () => {
         <div className="text-gray-700 pt-3 text-lg">
           <h2 className="lg:text-2xl">
             Next.js is a REACT framework more details can found by visiting{" "}
-            <a
+            <Link
               className="text-blue-400"
               href="https://nextjs.org/"
               target="_blank"
             >
               NEXT.js website
-            </a>
+            </Link>
           </h2>
           <br />
           <p>
