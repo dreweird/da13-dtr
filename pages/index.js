@@ -1,5 +1,7 @@
 import Layout from "../components/Layout";
 import Link from 'next/link'
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const index = () => {
   const metaInfo = {
@@ -10,6 +12,7 @@ const index = () => {
   
   const getDatesInRange = (startDate, endDate) => {
     const date = new Date(startDate.getTime());
+    
   
     const dates = [];
   
@@ -27,6 +30,7 @@ const index = () => {
   
   console.log(getDatesInRange(d1, d2));
   const dateRange = getDatesInRange(d1, d2);
+  const selectedDate = new Date();
 
   return (
     
@@ -37,7 +41,27 @@ const index = () => {
 <div className="font-bold text-2xl text-center"> Daily Time Record</div>
 <div className="font-bold text-xl text-center mt-5"> Alaan, Jeff</div>
 <div className="text-center text-sm"> (Name) </div>
-<div>Date from : <span className="font-bold"> {d1.toLocaleDateString('en-US', {month: "long", day: "numeric"})} - {d2.toLocaleDateString('en-US', {day: "numeric"})} , {d2.toLocaleDateString('en-US', {year: "numeric"})} </span> </div>
+
+<div className="flex items-start space-x-4 text-sm">
+      <label for="dropdown">Date from : </label>
+      <DatePicker
+        selected={selectedDate}
+        onChange={(date) => setSelectedDate(date)}
+        dateFormat="MMMM"
+        showMonthYearPicker
+        className="w-1/2 h-4 font-bold p-1" 
+      />
+      <select id="dropdown" className="font-bold">
+        <option value="A" >Select Days</option>
+        <option value="1-15">1 - 15</option>
+        <option value="16-31">16 - 31</option>
+        <option value="1-31">1 - 31</option>
+      </select>
+
+      <span className="font-bold">{selectedDate.getFullYear()}</span>
+    </div><div className="w-1/2 h-1"> </div>
+
+
 <table className="table-fixed w-full mx-auto">
 <thead>
 <tr className="border-2 border-black">
@@ -122,8 +146,25 @@ daily at the time of arrival at and departure from office.
 <div className="font-bold text-xl text-center mt-5"> Alaan, Jeff</div>
 <div className="text-center text-sm"> (Name) </div>
 
+<div className="flex items-start space-x-4 text-sm">
+      <label for="dropdown">Date from : </label>
+      <DatePicker
+        selected={selectedDate}
+        onChange={(date) => setSelectedDate(date)}
+        dateFormat="MMMM"
+        showMonthYearPicker
+        className="w-1/2 h-4 font-bold" 
+      />
+      <select id="dropdown" className="font-bold">
+        <option value="A" >Select Days</option>
+        <option value="1-15">1 - 15</option>
+        <option value="16-31">16 - 31</option>
+        <option value="1-31">1 - 31</option>
+      </select>
 
-<div>Date from : <span className="font-bold"> {d1.toLocaleDateString('en-US', {month: "long", day: "numeric"})} - {d2.toLocaleDateString('en-US', {day: "numeric"})} , {d2.toLocaleDateString('en-US', {year: "numeric"})} </span> </div>
+      <span className="font-bold">{selectedDate.getFullYear()}</span>
+    </div><div className="w-1/2 h-1"> </div>
+
 <table className="table-fixed w-full mx-auto">
 <thead>
 <tr className="border-2 border-black">
@@ -201,6 +242,8 @@ daily at the time of arrival at and departure from office.
       `}</style>
       <hr className="border-black border-1 page-break-after-always" />
 </div>
+
+
 
       </div>
    
