@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Navbar from "./Navbar";
 
+
 const Layout = (props) => {
   const { title, metaKeywords, metaDesc } = props.metaInfo;
   return (
@@ -19,7 +20,7 @@ const Layout = (props) => {
           {props.children}
         </div>
 
-        <footer className="w-full text-center border-t bg-blue-700 text-white p-4 pin-b">
+        <footer className="w-full text-center border-t bg-blue-700 text-white p-4 pin-b print:hidden">
           <span className="lg:text-xl"> &copy; DA 13 - ICTU </span>
         </footer>
       </div>

@@ -29,32 +29,36 @@ const index = () => {
   const dateRange = getDatesInRange(d1, d2);
 
   return (
-    
     <Layout className="" metaInfo={metaInfo}>
-      <div className="grid gap-x-2 gap-y-4 grid-cols-2 "> 
+      <div className="grid grid-cols-3"> 
       <div className="w-full">
       <div className="text-sm mb-5"> CIVIL SERVICE FORM NO.48 </div>
 <div className="font-bold text-2xl text-center"> Daily Time Record</div>
 <div className="font-bold text-xl text-center mt-5"> Alaan, Jeff</div>
 <div className="text-center text-sm"> (Name) </div>
+
+
 <div>Date from : <span className="font-bold"> {d1.toLocaleDateString('en-US', {month: "long", day: "numeric"})} - {d2.toLocaleDateString('en-US', {day: "numeric"})} , {d2.toLocaleDateString('en-US', {year: "numeric"})} </span> </div>
-<table className="table-fixed w-full mx-auto">
+<table className="table-fixed w-full mx-auto text-xs">
 <thead>
 <tr className="border-2 border-black">
-<td rowSpan={2} style={{ width: '25px' }} className="border-2 border-black text-left text-sm"> Day</td>
-<td colSpan={2} style={{ width: '85px' }} className="border-2 border-black font-bold text-center text-sm">A.M.</td>
-<td colSpan={2} style={{ width: '85px' }} className="border-2 border-black font-bold text-center text-sm">P.M.</td>
-<td colSpan={2} style={{ width: '65px' }}  className="border-2 border-black font-bold text-center text-sm">Undertime</td>
+<td rowSpan={2} className="border-2 border-black">Day</td>
+<td colSpan={2}  className="border-2 border-black font-bold text-center">A.M.</td>
+<td colSpan={2}  className="border-2 border-black font-bold text-center">P.M.</td>
+<td colSpan={2}  className="border-2 border-black font-bold text-center">Undertime</td>
 </tr>
-<tr className="border-2 border-black text-sm">
-<td className="border-2 border-black text-sm">Time In</td>
-<td className="border-2 border-black text-sm">Time Out</td>
-<td className="border-2 border-black text-sm">Time In</td>
-<td className="border-2 border-black text-sm">Time Out</td>
-<td className="border-2 border-black text-sm">Hours</td>
-<td className="border-2 border-black text-sm">Minutes</td>
+<tr className="border-2 border-black">
+<td className="border-2 border-black">Time In</td>
+<td className="border-2 border-black">Time Out</td>
+<td className="border-2 border-black">Time In</td>
+<td className="border-2 border-black">Time Out</td>
+<td className="border-2 border-black">Hours</td>
+<td className="border-2 border-black">Minutes</td>
 </tr>
 </thead>
+
+
+
 
 { getDatesInRange(d1, d2).map(function(item, index) {
 return (
@@ -75,10 +79,10 @@ return (
 {item.getDay() != 6 && item.getDay() != 0 && 
   <tr className="border-2 border-black">
     <td className="border-2 border-black text-sm text-center"> {index + 1}</td>
-    <td className="border-2 border-black text-sm text-center">07:51 AM</td>
+    <td className="border-2 border-black text-sm text-center">7:51 AM</td>
     <td className="border-2 border-black text-sm text-center">12:01 PM</td>
     <td className="border-2 border-black text-sm text-center">12:45 PM</td>
-    <td className="border-2 border-black text-sm text-center">05:31 PM</td>
+    <td className="border-2 border-black text-sm text-center">5:31 PM</td>
     <td className="border-2 border-black text-sm text-center"></td>
     <td className="border-2 border-black text-sm text-center"></td>
 </tr>
@@ -120,20 +124,23 @@ daily at the time of arrival at and departure from office.
 <table className="table-fixed w-full mx-auto">
 <thead>
 <tr className="border-2 border-black">
-<td rowSpan={2} style={{ width: '25px' }} className="border-2 border-black text-left text-sm"> Day</td>
-<td colSpan={2} style={{ width: '85px' }} className="border-2 border-black font-bold text-center text-sm">A.M.</td>
-<td colSpan={2} style={{ width: '85px' }} className="border-2 border-black font-bold text-center text-sm">P.M.</td>
-<td colSpan={2} style={{ width: '65px' }}  className="border-2 border-black font-bold text-center text-sm">Undertime</td>
+<td rowSpan={2} className="border-2 border-black">Day</td>
+<td colSpan={2}  className="border-2 border-black font-bold text-center">A.M.</td>
+<td colSpan={2}  className="border-2 border-black font-bold text-center">P.M.</td>
+<td colSpan={2}  className="border-2 border-black font-bold text-center">Undertime</td>
 </tr>
-<tr className="border-2 border-black text-sm">
-<td className="border-2 border-black text-sm">Time In</td>
-<td className="border-2 border-black text-sm">Time Out</td>
-<td className="border-2 border-black text-sm">Time In</td>
-<td className="border-2 border-black text-sm">Time Out</td>
-<td className="border-2 border-black text-sm">Hours</td>
-<td className="border-2 border-black text-sm">Minutes</td>
+<tr className="border-2 border-black">
+<td className="border-2 border-black">Time In</td>
+<td className="border-2 border-black">Time Out</td>
+<td className="border-2 border-black">Time In</td>
+<td className="border-2 border-black">Time Out</td>
+<td className="border-2 border-black">Hours</td>
+<td className="border-2 border-black">Minutes</td>
 </tr>
 </thead>
+
+
+
 
 { getDatesInRange(d1, d2).map(function(item, index) {
 return (
@@ -154,10 +161,10 @@ return (
 {item.getDay() != 6 && item.getDay() != 0 && 
   <tr className="border-2 border-black">
     <td className="border-2 border-black text-sm text-center"> {index + 1}</td>
-    <td className="border-2 border-black text-sm text-center">07:51 AM</td>
+    <td className="border-2 border-black text-sm text-center">7:51 AM</td>
     <td className="border-2 border-black text-sm text-center">12:01 PM</td>
     <td className="border-2 border-black text-sm text-center">12:45 PM</td>
-    <td className="border-2 border-black text-sm text-center">05:31 PM</td>
+    <td className="border-2 border-black text-sm text-center">5:31 PM</td>
     <td className="border-2 border-black text-sm text-center"></td>
     <td className="border-2 border-black text-sm text-center"></td>
 </tr>
