@@ -3,45 +3,202 @@ import Link from 'next/link'
 
 const index = () => {
   const metaInfo = {
-    title: "This is meta title index page",
-    metaKeywords: "these are the keywords oof index page",
-    metaDesc: "this is meta Desctiption of index page",
+    title: "tdis is meta title index page",
+    metaKeywords: "tdese are tde keywords oof index page",
+    metaDesc: "tdis is meta Desctiption of index page",
   };
+  
+  const getDatesInRange = (startDate, endDate) => {
+    const date = new Date(startDate.getTime());
+  
+    const dates = [];
+  
+    while (date <= endDate) {
+      dates.push(new Date(date));
+      date.setDate(date.getDate() + 1);
+    }
+  
+    return dates;
+  }
+  
+  
+  const d1 = new Date('2024-01-01');
+  const d2 = new Date('2024-01-30');
+  
+  console.log(getDatesInRange(d1, d2));
+  const dateRange = getDatesInRange(d1, d2);
+
   return (
-    <Layout metaInfo={metaInfo}>
-      <div className="">
-        <h1 className="flex justify-center text-blue-700 lg:text-3xl border-blue-600 border-b-2	text-bold">
-          Welcome to SEO Friendly NextJS with Tailwind CSS starter Template
-        </h1>
-        <div className="text-gray-700 pt-3 text-lg">
-          <h2 className="lg:text-2xl">
-            Next.js is a REACT framework more details can found by visiting{" "}
-            <Link
-              className="text-blue-400"
-              href="https://nextjs.org/"
-              target="_blank"
-            >
-              NEXT.js website
-            </Link>
-          </h2>
-          <br />
-          <p>
-            This is the starter template using Next.js to get you started on a
-            fly with pre built initial layout of header, content and footer.
-            Three links are added by default in the navbar Home, About and
-            Contact Us. All pages content can be modified in pages directory.
-          </p>
-          <p>
-            Tailwind CSS is used for styling the template. This template is
-            fully responsive.
-          </p>
-          <p>
-            Meta tags in head section can have dynamic data/content for each
-            page for populating {"<title>"} {"<meta name='keywords'>"}{" "}
-            {"<meta name='description'>"}{" "}
-          </p>
-        </div>
+    <Layout className="" metaInfo={metaInfo}>
+      <div className="grid grid-cols-2 gap-8"> 
+      <div className="w-3/5">
+      <div className="text-sm mb-5"> CIVIL SERVICE FORM NO.48 </div>
+<div className="font-bold text-2xl text-center"> Daily Time Record</div>
+<div className="font-bold text-xl text-center mt-5"> Alaan, Jeff</div>
+<div className="text-center text-sm"> (Name) </div>
+
+
+<div>Date from : <span className="font-bold"> {d1.toLocaleDateString('en-US', {month: "long", day: "numeric"})} - {d2.toLocaleDateString('en-US', {day: "numeric"})} , {d2.toLocaleDateString('en-US', {year: "numeric"})} </span> </div>
+<table className="table-fixed w-full mx-auto">
+<thead>
+<tr className="border-2 border-black">
+<td rowSpan={2} className="border-2 border-black">Day</td>
+<td colSpan={2}  className="border-2 border-black font-bold text-center">A.M.</td>
+<td colSpan={2}  className="border-2 border-black font-bold text-center">P.M.</td>
+<td colSpan={2}  className="border-2 border-black font-bold text-center">Undertime</td>
+</tr>
+<tr className="border-2 border-black">
+<td className="border-2 border-black">Time In</td>
+<td className="border-2 border-black">Time Out</td>
+<td className="border-2 border-black">Time In</td>
+<td className="border-2 border-black">Time Out</td>
+<td className="border-2 border-black">Hours</td>
+<td className="border-2 border-black">Minutes</td>
+</tr>
+</thead>
+
+
+
+
+{ getDatesInRange(d1, d2).map(function(item, index) {
+return (
+<tbody>
+{item.getDay() == 0 && 
+    <tr className="border-2 border-black">
+        <td className="border-2 border-black text-sm text-center"> {index + 1}</td>
+        <td colSpan={6} className="border-2 border-black text-red-600 text-center tracking-wide">S u n d a y</td>
+    </tr>
+}
+{item.getDay() == 6 && 
+<tr className="border-2 border-black">
+    <td className="border-2 border-black text-sm text-center"> {index + 1}</td>
+    <td colSpan={6} className="border-2 border-black text-red-600 text-center tracking-wide">S a t u r d a y</td>
+</tr>
+}
+
+{item.getDay() != 6 && item.getDay() != 0 && 
+  <tr className="border-2 border-black">
+    <td className="border-2 border-black text-sm text-center"> {index + 1}</td>
+    <td className="border-2 border-black text-sm text-center">7:51 AM</td>
+    <td className="border-2 border-black text-sm text-center">12:01 PM</td>
+    <td className="border-2 border-black text-sm text-center">12:45 PM</td>
+    <td className="border-2 border-black text-sm text-center">5:31 PM</td>
+    <td className="border-2 border-black text-sm text-center"></td>
+    <td className="border-2 border-black text-sm text-center"></td>
+</tr>
+}
+
+</tbody>
+
+)
+
+
+})
+} 
+
+
+
+</table>
+<div className="text-center text-sm"> [T]-Travel [L]-Leave [H]-Holiday [OB]- Official Business </div>
+<hr className="border-black border-2" />
+<div className="text-sm indent-8">
+I CERTIFY on my honor that above is a true and correct
+report of the hours of work performed, record of which was made
+daily at the time of arrival at and departure from office.
+</div>
+<div className="font-bold text-lg text-center mt-5"> Alaan, Jeff</div>
+<hr className="border-black border-2" /><br />
+<hr className="border-black border-1" />
+<div className="text-sm mb-5">Verified as to the prescribed office hours.</div>
+<hr className="border-black border-1" />
+</div>
+
+<div className="w-3/5">
+      <div className="text-sm mb-5"> CIVIL SERVICE FORM NO.48 </div>
+<div className="font-bold text-2xl text-center"> Daily Time Record</div>
+<div className="font-bold text-xl text-center mt-5"> Alaan, Jeff</div>
+<div className="text-center text-sm"> (Name) </div>
+
+
+<div>Date from : <span className="font-bold"> {d1.toLocaleDateString('en-US', {month: "long", day: "numeric"})} - {d2.toLocaleDateString('en-US', {day: "numeric"})} , {d2.toLocaleDateString('en-US', {year: "numeric"})} </span> </div>
+<table className="table-fixed w-full mx-auto">
+<thead>
+<tr className="border-2 border-black">
+<td rowSpan={2} className="border-2 border-black">Day</td>
+<td colSpan={2}  className="border-2 border-black font-bold text-center">A.M.</td>
+<td colSpan={2}  className="border-2 border-black font-bold text-center">P.M.</td>
+<td colSpan={2}  className="border-2 border-black font-bold text-center">Undertime</td>
+</tr>
+<tr className="border-2 border-black">
+<td className="border-2 border-black">Time In</td>
+<td className="border-2 border-black">Time Out</td>
+<td className="border-2 border-black">Time In</td>
+<td className="border-2 border-black">Time Out</td>
+<td className="border-2 border-black">Hours</td>
+<td className="border-2 border-black">Minutes</td>
+</tr>
+</thead>
+
+
+
+
+{ getDatesInRange(d1, d2).map(function(item, index) {
+return (
+<tbody>
+{item.getDay() == 0 && 
+    <tr className="border-2 border-black">
+        <td className="border-2 border-black text-sm text-center"> {index + 1}</td>
+        <td colSpan={6} className="border-2 border-black text-red-600 text-center tracking-wide">S u n d a y</td>
+    </tr>
+}
+{item.getDay() == 6 && 
+<tr className="border-2 border-black">
+    <td className="border-2 border-black text-sm text-center"> {index + 1}</td>
+    <td colSpan={6} className="border-2 border-black text-red-600 text-center tracking-wide">S a t u r d a y</td>
+</tr>
+}
+
+{item.getDay() != 6 && item.getDay() != 0 && 
+  <tr className="border-2 border-black">
+    <td className="border-2 border-black text-sm text-center"> {index + 1}</td>
+    <td className="border-2 border-black text-sm text-center">7:51 AM</td>
+    <td className="border-2 border-black text-sm text-center">12:01 PM</td>
+    <td className="border-2 border-black text-sm text-center">12:45 PM</td>
+    <td className="border-2 border-black text-sm text-center">5:31 PM</td>
+    <td className="border-2 border-black text-sm text-center"></td>
+    <td className="border-2 border-black text-sm text-center"></td>
+</tr>
+}
+
+</tbody>
+
+)
+
+
+})
+} 
+
+
+
+</table>
+<div className="text-center text-sm"> [T]-Travel [L]-Leave [H]-Holiday [OB]- Official Business </div>
+<hr className="border-black border-2" />
+<div className="text-sm indent-8">
+I CERTIFY on my honor that above is a true and correct
+report of the hours of work performed, record of which was made
+daily at the time of arrival at and departure from office.
+</div>
+<div className="font-bold text-lg text-center mt-5"> Alaan, Jeff</div>
+<hr className="border-black border-2" /><br />
+<hr className="border-black border-1" />
+<div className="text-sm mb-5">Verified as to the prescribed office hours.</div>
+<hr className="border-black border-1" />
+</div>
+
       </div>
+   
+    
+
     </Layout>
   );
 };

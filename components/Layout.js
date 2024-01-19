@@ -20,7 +20,7 @@ const Layout = (props) => {
         </div>
 
         <footer className="w-full text-center border-t bg-blue-700 text-white p-4 pin-b">
-          <span className="lg:text-xl"> &copy; Irshad Ali Jan 2020 </span>
+          <span className="lg:text-xl"> &copy; DA 13 - ICTU </span>
         </footer>
       </div>
     </>
@@ -29,7 +29,7 @@ const Layout = (props) => {
 
 Layout.defaultProps = {
   metaInfo: {
-    title: "Default Title",
+    title: "DA-13 DTR",
     metaKeywords: "Default metaKeywords",
     metaDesc: "Default metaDesc",
   },

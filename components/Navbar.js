@@ -11,7 +11,7 @@ const Navbar = () => {
         className="lg:text-xl p-2 mr-4 inline-flex items-center font-serif font-bold"
       >
         <Link href="/">
-          NextJS with Tailwind
+          DA-13 Daily Time Record System
         </Link>
       </div>
       <button
