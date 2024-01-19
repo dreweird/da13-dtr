@@ -23,7 +23,7 @@ const index = () => {
   
   
   const d1 = new Date('2024-01-01');
-  const d2 = new Date('2024-01-30');
+  const d2 = new Date('2024-01-15');
   
   console.log(getDatesInRange(d1, d2));
   const dateRange = getDatesInRange(d1, d2);
@@ -106,7 +106,14 @@ daily at the time of arrival at and departure from office.
 <hr className="border-black border-2" /><br />
 <hr className="border-black border-1" />
 <div className="text-sm mb-5">Verified as to the prescribed office hours.</div>
-<hr className="border-black border-1" />
+<style jsx global>{`
+        @media print {
+          .page-break-after-always {
+            page-break-after: always;
+          }
+        }
+      `}</style>
+      <hr className="border-black border-1 page-break-after-always" />
 </div>
 
 <div className="w-full">
@@ -185,7 +192,14 @@ daily at the time of arrival at and departure from office.
 <hr className="border-black border-2" /><br />
 <hr className="border-black border-1" />
 <div className="text-sm mb-5">Verified as to the prescribed office hours.</div>
-<hr className="border-black border-1" />
+<style jsx global>{`
+        @media print {
+          .page-break-after-always {
+            page-break-after: always;
+          }
+        }
+      `}</style>
+      <hr className="border-black border-1 page-break-after-always" />
 </div>
 
       </div>

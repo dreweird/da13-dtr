@@ -14,6 +14,10 @@ module.exports = {
     },
   },
   plugins: [],
+  corePlugins: {
+    // ... other core plugins
+    pageBreakAfter: true,
+  },
 
   
 };
