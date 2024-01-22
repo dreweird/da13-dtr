@@ -182,8 +182,26 @@ const index = () => {
         <div className="font-bold text-xl text-center mt-5"> Alaan, Jeff</div>
         <div className="text-center text-sm"> (Name) </div>
         <div className="flex items-start space-x-4 text-sm print:hidden w-full">
-          <label htmlFor="dropdown"></label>
-            <span className="font-bold">.</span>
+        
+          <label htmlFor="dropdown">Date from : </label>
+            <DatePicker
+              selected={selectedDate}
+              onChange={(date) => setSelectedDate(date)}
+              dateFormat="MMMM"
+              showMonthYearPicker
+              className="w-1/2 h-4 font-bold p-1"
+            />
+            <select
+              id="dropdown"
+              className="font-bold"
+              value={selectedDays}
+              onChange={(e) => setSelectedDays(e.target.value)}
+            >
+              <option value="All">All</option>
+              <option value="1-15">1 - 15</option>
+              <option value="16-31">16 - 31</option>
+            </select>
+            <span className="font-bold">{selectedDate.getFullYear()}</span>
             </div>
 
         <div className=""></div>
@@ -197,6 +215,7 @@ const index = () => {
             ? '1 - 15'
             : '16 - ' + new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate()}, {selectedDate.getFullYear()}
         </span>
+
         </div>
         
 
@@ -219,39 +238,43 @@ const index = () => {
         </thead>
 
         {getDatesInRange(d1, d2).map(function (item, index) {
-          return (
-            <tbody key={index}>
-              {item.getDay() === 0 && (
-                <tr className="border-2 border-black">
-                  <td className="border-2 border-black text-sm text-center text-red-600"> {index + 1}</td>
-                  <td colSpan={6} className="border-2 border-black text-red-600 text-center tracking-wide">
-                    S u n d a y
-                  </td>
-                </tr>
-              )}
-              {item.getDay() === 6 && (
-                <tr className="border-2 border-black">
-                  <td className="border-2 border-black text-sm text-center text-red-600"> {index + 1}</td>
-                  <td colSpan={6} className="border-2 border-black text-red-600 text-center tracking-wide">
-                    S a t u r d a y
-                  </td>
-                </tr>
-              )}
+  const startIndex = selectedDays === '16-31' ? 16 : 1;
+  const currentIndex = index + startIndex;
 
-              {item.getDay() !== 6 && item.getDay() !== 0 && (
-                <tr className="border-2 border-black">
-                  <td className="border-2 border-black text-sm text-center"> {index + 1}</td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                </tr>
-              )}
-            </tbody>
-          );
-        })}
+  return (
+    <tbody key={index}>
+      {item.getDay() === 0 && (
+        <tr className="border-2 border-black">
+          <td className="border-2 border-black text-sm text-center text-red-600"> {currentIndex}</td>
+          <td colSpan={6} className="border-2 border-black text-red-600 text-center tracking-wide">
+            S u n d a y
+          </td>
+        </tr>
+      )}
+      {item.getDay() === 6 && (
+        <tr className="border-2 border-black">
+          <td className="border-2 border-black text-sm text-center text-red-600"> {currentIndex}</td>
+          <td colSpan={6} className="border-2 border-black text-red-600 text-center tracking-wide">
+            S a t u r d a y
+          </td>
+        </tr>
+      )}
+
+      {item.getDay() !== 6 && item.getDay() !== 0 && (
+        <tr className="border-2 border-black">
+          <td className="border-2 border-black text-sm text-center"> {currentIndex}</td>
+          <td className="border-2 border-black text-sm text-center"></td>
+          <td className="border-2 border-black text-sm text-center"></td>
+          <td className="border-2 border-black text-sm text-center"></td>
+          <td className="border-2 border-black text-sm text-center"></td>
+          <td className="border-2 border-black text-sm text-center"></td>
+          <td className="border-2 border-black text-sm text-center"></td>
+        </tr>
+      )}
+    </tbody>
+  );
+})}
+
 
         </table>
         <div className="text-center text-sm"> [T]-Travel [L]-Leave [H]-Holiday [OB]- Official Business </div>
@@ -275,7 +298,6 @@ const index = () => {
         `}</style>
         <hr className="border-black border-1 page-break-after-always" />
         </div>
-
 
       </div>
     </Layout>
