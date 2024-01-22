@@ -56,10 +56,10 @@ const index = () => {
 
         
       <div className="w-full"> <span className="text-sm mb-5 w-full">CIVIL SERVICE FORM NO.48 </span>
-        <div className="font-bold text-2xl text-center"> Daily Time Record</div>
-        <div className="font-bold text-xl text-center mt-5"> Alaan, Jeff</div>
+        <div className="font-bold text-xl text-center"> Daily Time Record</div>
+        <div className="font-bold text-2xl text-center mt-5"> Alaan, Jeff</div>
         <div className="text-center text-sm"> (Name) </div>
-        <div className="flex items-start space-x-4 text-sm print:hidden w-full">
+        <div className="flex items-start space-x-4 text-2xl print:hidden w-full">
         
           <label htmlFor="dropdown">Date from : </label>
             <DatePicker
@@ -83,9 +83,9 @@ const index = () => {
             </div>
 
         <div className=""></div>
-        <div className="text-left text-sm">
-        <span className="text-Left text-sm">Date From : </span>
-        <span className="font-bold text-left text-sm">
+        <div className="text-left text-2xl">
+        <span className="text-Left text-2xl">Date From : </span>
+        <span className="font-bold text-left text-2xl">
           {new Intl.DateTimeFormat('en-US', { month: 'long' }).format(selectedDate)}{' '}
           {selectedDays === 'All'
             ? `1 - ${new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate()}`
@@ -162,7 +162,7 @@ const index = () => {
         report of the hours of work performed, record of which was made
         daily at the time of arrival at and departure from office.
         </div>
-        <div className="font-bold text-lg text-center mt-2"> Alaan, Jeff</div>
+        <div className="text-lg text-center mt-2"> Alaan, Jeff</div>
         <hr className="border-black border-2" /><br />
         <hr className="border-black border-1" />
         <div className="text-sm mb-5">Verified as to the prescribed office hours.</div>
@@ -177,11 +177,11 @@ const index = () => {
         <hr className="border-black border-1 page-break-after-always" />
         </div>
 
-        <div className="w-full"> <span className="text-sm mb-5 w-full">CIVIL SERVICE FORM NO.48 </span>
-        <div className="font-bold text-2xl text-center"> Daily Time Record</div>
-        <div className="font-bold text-xl text-center mt-5"> Alaan, Jeff</div>
+      <div className="w-full"> <span className="text-sm mb-5 w-full">CIVIL SERVICE FORM NO.48 </span>
+        <div className="font-bold text-xl text-center"> Daily Time Record</div>
+        <div className="font-bold text-2xl text-center mt-5"> Alaan, Jeff</div>
         <div className="text-center text-sm"> (Name) </div>
-        <div className="flex items-start space-x-4 text-sm print:hidden w-full">
+        <div className="flex items-start space-x-4 text-2xl print:hidden w-full">
         
           <label htmlFor="dropdown">Date from : </label>
             <DatePicker
@@ -205,9 +205,9 @@ const index = () => {
             </div>
 
         <div className=""></div>
-        <div className="text-left text-sm">
-        <span className="text-Left text-sm">Date From : </span>
-        <span className="font-bold text-left text-sm">
+        <div className="text-left text-2xl">
+        <span className="text-Left text-2xl">Date From : </span>
+        <span className="font-bold text-left text-2xl">
           {new Intl.DateTimeFormat('en-US', { month: 'long' }).format(selectedDate)}{' '}
           {selectedDays === 'All'
             ? `1 - ${new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate()}`
@@ -284,7 +284,7 @@ const index = () => {
         report of the hours of work performed, record of which was made
         daily at the time of arrival at and departure from office.
         </div>
-        <div className="font-bold text-lg text-center mt-2"> Alaan, Jeff</div>
+        <div className="text-lg text-center mt-2"> Alaan, Jeff</div>
         <hr className="border-black border-2" /><br />
         <hr className="border-black border-1" />
         <div className="text-sm mb-5">Verified as to the prescribed office hours.</div>

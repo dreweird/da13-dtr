@@ -1,0 +1,22 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model attendance {
+  id          Int     @id @default(autoincrement())
+  Department  String? @db.VarChar(11)
+  Name        String? @db.VarChar(12)
+  No_         Int?    @map("No.")
+  Date_Time   String? @map("Date/Time") @db.VarChar(22)
+  Status      String? @db.VarChar(8)
+  Location_ID Int?    @map("Location ID")
+  ID_Number   String? @map("ID Number") @db.VarChar(10)
+  Workcode    Int?
+  VerifyCode  String? @db.VarChar(4)
+  CardNo      String? @db.VarChar(10)
+}
