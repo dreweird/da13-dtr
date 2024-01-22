@@ -39,7 +39,7 @@ const index = () => {
       break;
     case "16-31":
       d1 = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 16);
-      d2 = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, lastDay.getDate()); // Set to the last day of the month
+      d2 = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0); // Set to the last day of the month
       break;
     default:
       d1 = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
@@ -116,39 +116,43 @@ const index = () => {
         </thead>
 
         {getDatesInRange(d1, d2).map(function (item, index) {
-          return (
-            <tbody key={index}>
-              {item.getDay() === 0 && (
-                <tr className="border-2 border-black">
-                  <td className="border-2 border-black text-sm text-center"> {index + 1}</td>
-                  <td colSpan={6} className="border-2 border-black text-red-600 text-center tracking-wide">
-                    S u n d a y
-                  </td>
-                </tr>
-              )}
-              {item.getDay() === 6 && (
-                <tr className="border-2 border-black">
-                  <td className="border-2 border-black text-sm text-center"> {index + 1}</td>
-                  <td colSpan={6} className="border-2 border-black text-red-600 text-center tracking-wide">
-                    S a t u r d a y
-                  </td>
-                </tr>
-              )}
+  const startIndex = selectedDays === '16-31' ? 16 : 1;
+  const currentIndex = index + startIndex;
 
-              {item.getDay() !== 6 && item.getDay() !== 0 && (
-                <tr className="border-2 border-black">
-                  <td className="border-2 border-black text-sm text-center"> {index + 1}</td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                </tr>
-              )}
-            </tbody>
-          );
-        })}
+  return (
+    <tbody key={index}>
+      {item.getDay() === 0 && (
+        <tr className="border-2 border-black">
+          <td className="border-2 border-black text-sm text-center text-red-600"> {currentIndex}</td>
+          <td colSpan={6} className="border-2 border-black text-red-600 text-center tracking-wide">
+            S u n d a y
+          </td>
+        </tr>
+      )}
+      {item.getDay() === 6 && (
+        <tr className="border-2 border-black">
+          <td className="border-2 border-black text-sm text-center text-red-600"> {currentIndex}</td>
+          <td colSpan={6} className="border-2 border-black text-red-600 text-center tracking-wide">
+            S a t u r d a y
+          </td>
+        </tr>
+      )}
+
+      {item.getDay() !== 6 && item.getDay() !== 0 && (
+        <tr className="border-2 border-black">
+          <td className="border-2 border-black text-sm text-center"> {currentIndex}</td>
+          <td className="border-2 border-black text-sm text-center"></td>
+          <td className="border-2 border-black text-sm text-center"></td>
+          <td className="border-2 border-black text-sm text-center"></td>
+          <td className="border-2 border-black text-sm text-center"></td>
+          <td className="border-2 border-black text-sm text-center"></td>
+          <td className="border-2 border-black text-sm text-center"></td>
+        </tr>
+      )}
+    </tbody>
+  );
+})}
+
 
         </table>
         <div className="text-center text-sm"> [T]-Travel [L]-Leave [H]-Holiday [OB]- Official Business </div>
@@ -219,7 +223,7 @@ const index = () => {
             <tbody key={index}>
               {item.getDay() === 0 && (
                 <tr className="border-2 border-black">
-                  <td className="border-2 border-black text-sm text-center"> {index + 1}</td>
+                  <td className="border-2 border-black text-sm text-center text-red-600"> {index + 1}</td>
                   <td colSpan={6} className="border-2 border-black text-red-600 text-center tracking-wide">
                     S u n d a y
                   </td>
@@ -227,7 +231,7 @@ const index = () => {
               )}
               {item.getDay() === 6 && (
                 <tr className="border-2 border-black">
-                  <td className="border-2 border-black text-sm text-center"> {index + 1}</td>
+                  <td className="border-2 border-black text-sm text-center text-red-600"> {index + 1}</td>
                   <td colSpan={6} className="border-2 border-black text-red-600 text-center tracking-wide">
                     S a t u r d a y
                   </td>
