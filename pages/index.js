@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 const index = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedDays, setSelectedDays] = useState("All");
+  const [attendance, setAttendance] = useState();
 
   const metaInfo = {
     title: "DTR",
@@ -18,6 +19,7 @@ const index = () => {
     const dates = [];
 
     while (date <= endDate) {
+      
       dates.push(new Date(date));
       date.setDate(date.getDate() + 1);
     }
@@ -51,9 +53,13 @@ const index = () => {
   const dtr = async() => {
     const response = await fetch("/api/attendance");
     const json = await response.json();
-    console.log(json)
+    setAttendance(json)
   }
 
+  
+    console.log(attendance && attendance[0].Name);
+
+  //console.log(attendance[0])
   useEffect(() => {
     dtr()
   }, []);
@@ -67,7 +73,7 @@ const index = () => {
         
       <div className="w-full"> <span className="text-sm mb-5 w-full">CIVIL SERVICE FORM NO.48 </span>
         <div className="font-bold text-xl text-center"> Daily Time Record</div>
-        <div className="font-bold text-2xl text-center mt-5"> Alaan, Jeff</div>
+        <div className="font-bold text-2xl text-center mt-5">{attendance && attendance[0].Name}</div>
         <div className="text-center text-sm"> (Name) </div>
         <div className="flex items-start space-x-4 text-2xl print:hidden w-full">
         
@@ -172,7 +178,7 @@ const index = () => {
         report of the hours of work performed, record of which was made
         daily at the time of arrival at and departure from office.
         </div>
-        <div className="text-lg text-center mt-2"> Alaan, Jeff</div>
+        <div className="text-lg text-center mt-2">{attendance && attendance[0].Name}</div>
         <hr className="border-black border-2" /><br />
         <hr className="border-black border-1" />
         <div className="text-sm mb-5">Verified as to the prescribed office hours.</div>
@@ -187,9 +193,9 @@ const index = () => {
         <hr className="border-black border-1 page-break-after-always" />
         </div>
 
-      <div className="w-full"> <span className="text-sm mb-5 w-full">CIVIL SERVICE FORM NO.48 </span>
+        <div className="w-full"> <span className="text-sm mb-5 w-full">CIVIL SERVICE FORM NO.48 </span>
         <div className="font-bold text-xl text-center"> Daily Time Record</div>
-        <div className="font-bold text-2xl text-center mt-5"> Alaan, Jeff</div>
+        <div className="font-bold text-2xl text-center mt-5">{attendance && attendance[0].Name}</div>
         <div className="text-center text-sm"> (Name) </div>
         <div className="flex items-start space-x-4 text-2xl print:hidden w-full">
         
@@ -294,7 +300,7 @@ const index = () => {
         report of the hours of work performed, record of which was made
         daily at the time of arrival at and departure from office.
         </div>
-        <div className="text-lg text-center mt-2"> Alaan, Jeff</div>
+        <div className="text-lg text-center mt-2">{attendance && attendance[0].Name}</div>
         <hr className="border-black border-2" /><br />
         <hr className="border-black border-1" />
         <div className="text-sm mb-5">Verified as to the prescribed office hours.</div>
