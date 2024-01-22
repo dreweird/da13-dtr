@@ -1,5 +1,5 @@
 import Layout from "../components/Layout";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -47,6 +47,16 @@ const index = () => {
   }
 
   console.log(getDatesInRange(d1, d2));
+
+  const dtr = async() => {
+    const response = await fetch("/api/attendance");
+    const json = await response.json();
+    console.log(json)
+  }
+
+  useEffect(() => {
+    dtr()
+  }, []);
 
 
   return (

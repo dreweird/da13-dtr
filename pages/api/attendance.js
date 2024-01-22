@@ -1,6 +1,10 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient()
 
-export async function handler(req, res) {
-  const allUsers = await prisma.attendance.findMany()
-  console.log(allUsers)
+const handler = async (req, res)=>{
+    const pip = await prisma.attendance.findMany()
+        res.status(200).json(pip)
+    
 }
+
+export default handler
