@@ -8,9 +8,9 @@ const index = () => {
   const [selectedDays, setSelectedDays] = useState("All");
 
   const metaInfo = {
-    title: "tdis is meta title index page",
-    metaKeywords: "these are the keywords oof index page",
-    metaDesc: "tdis is meta Desctiption of index page",
+    title: "DTR",
+    metaKeywords: "",
+    metaDesc: "",
   };
 
   const getDatesInRange = (startDate, endDate) => {
@@ -28,26 +28,26 @@ const index = () => {
   let lastDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
   let d2;
 
-switch (selectedDays) {
-  case "All":
-    d1 = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
-    d2 = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), lastDay.getDate());
-    break;
-  case "1-15":
-    d1 = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
-    d2 = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 15);
-    break;
-  case "16-31":
-    d1 = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 16);
-    d2 = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0); // Set to the last day of the month
-    break;
-  default:
-    d1 = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
-    d2 = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
-}
+  switch (selectedDays) {
+    case "All":
+      d1 = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+      d2 = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), lastDay.getDate());
+      break;
+    case "1-15":
+      d1 = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+      d2 = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 15);
+      break;
+    case "16-31":
+      d1 = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 16);
+      d2 = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, lastDay.getDate()); // Set to the last day of the month
+      break;
+    default:
+      d1 = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+      d2 = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), lastDay.getDate());
+  }
 
   console.log(getDatesInRange(d1, d2));
-  const dateRange = getDatesInRange(d1, d2);
+
 
   return (
     <Layout className="" metaInfo={metaInfo}>
@@ -85,7 +85,15 @@ switch (selectedDays) {
         <div className=""></div>
         <div className="text-left text-sm">
         <span className="text-Left text-sm">Date From : </span>
-        <span className="font-bold text-Left text-sm"> {new Intl.DateTimeFormat('en-US', { month: 'long' }).format(selectedDate)} {selectedDays === 'All' ? '1 - 31' : selectedDays === '1-15' ? '1 - 15' : '16 - 31'}, {selectedDate.getFullYear()}</span>
+        <span className="font-bold text-left text-sm">
+          {new Intl.DateTimeFormat('en-US', { month: 'long' }).format(selectedDate)}{' '}
+          {selectedDays === 'All'
+            ? `1 - ${new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate()}`
+            : selectedDays === '1-15'
+            ? '1 - 15'
+            : '16 - ' + new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate()}, {selectedDate.getFullYear()}
+        </span>
+
         </div>
         
 
@@ -177,7 +185,14 @@ switch (selectedDays) {
         <div className=""></div>
         <div className="text-left text-sm">
         <span className="text-Left text-sm">Date From : </span>
-        <span className="font-bold text-Left text-sm"> {new Intl.DateTimeFormat('en-US', { month: 'long' }).format(selectedDate)} {selectedDays === 'All' ? '1 - 31' : selectedDays === '1-15' ? '1 - 15' : '16 - 31'}, {selectedDate.getFullYear()}</span>
+        <span className="font-bold text-left text-sm">
+          {new Intl.DateTimeFormat('en-US', { month: 'long' }).format(selectedDate)}{' '}
+          {selectedDays === 'All'
+            ? `1 - ${new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate()}`
+            : selectedDays === '1-15'
+            ? '1 - 15'
+            : '16 - ' + new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate()}, {selectedDate.getFullYear()}
+        </span>
         </div>
         
 

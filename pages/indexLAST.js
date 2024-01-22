@@ -62,7 +62,6 @@ const Index = () => {
             onChange={(date) => setStartDate(date)}
             dateFormat="MMMM d, yyyy"
             showMonthYearPicker
-            placeholderText="Select Date From"
             className="w-30 h-4 font-bold p-1"
           />
           <label htmlFor="endDate">Date to : </label>
