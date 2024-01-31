@@ -17,7 +17,6 @@ const index = () => {
   const getDatesInRange = (startDate, endDate) => {
     const date = new Date(startDate.getTime());
     const dates = [];
-
     while (date <= endDate) {
       dates.push(new Date(date));
       date.setDate(date.getDate() + 1);
@@ -25,23 +24,17 @@ const index = () => {
     return dates;
   };
 
-  const attendanceDate = attendance && attendance[1].Date;
+  const attendanceDate = attendance && attendance[0].Date;
+  let date_month, date_year, date_day;
 
-let date_month, date_year, date_day;
+  if (attendanceDate) {
+    const dateObject = new Date(attendanceDate);
+    date_month = dateObject.getMonth() + 1;
+    date_year = dateObject.getFullYear();
+    date_day = dateObject.getDate();
+  }
 
-if (attendanceDate) {
-  const dateObject = new Date(attendanceDate);
-
-  // Extracting month, year, and day
-  date_month = dateObject.getMonth() + 1; // Month is zero-based, so we add 1
-  date_year = dateObject.getFullYear();
-  date_day = dateObject.getDate();
-}
-
-
-  let d1;
-  let lastDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
-  let d2;
+  let d1, d2, lastDay = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
 
   switch (selectedDays) {
     case "All":
@@ -71,7 +64,6 @@ if (attendanceDate) {
     const fetchData = async () => {
       await dtr_view();
     };
-  
     fetchData();
   }, []);
 
@@ -138,52 +130,52 @@ if (attendanceDate) {
         </thead>
 
         {getDatesInRange(d1, d2).map(function (item, index) {
-  const startIndex = selectedDays === '16-31' ? 16 : 1;
-  const currentIndex = index + startIndex;
+        const startIndex = selectedDays === '16-31' ? 16 : 1;
+        const currentIndex = index + startIndex;
 
-  const matchingDate = attendance && attendance.find(day => {
-    const dayNumber = new Date(day.Date).getDate();
-    return dayNumber === currentIndex;
-  });
+        const matchingDate = attendance && attendance.find(day => {
+          const dayNumber = new Date(day.Date).getDate();
+          return dayNumber === currentIndex;
+        });
 
-  if (
-    selectedDate.getDay() !== 6 &&
-    selectedDate.getDay() !== 0 &&
-    selectedDate.getFullYear() === date_year &&
-    selectedDate.getMonth() + 1 === date_month &&
-    matchingDate
-  ) {
-    return (
-      <tbody key={index}>
-        {/* Render the row with data */}
-        <tr className="border-2 border-black">
-          <td className="border-2 border-black text-sm text-center">{currentIndex}</td>
-          <td className="border-2 border-black text-sm text-center">{matchingDate.AM_In}</td>
-          <td className="border-2 border-black text-sm text-center">{matchingDate.AM_Out}</td>
-          <td className="border-2 border-black text-sm text-center">{matchingDate.PM_In}</td>
-          <td className="border-2 border-black text-sm text-center">{matchingDate.PM_Out}</td>
-          <td className="border-2 border-black text-sm text-center"></td>
-          <td className="border-2 border-black text-sm text-center"></td>
-        </tr>
-      </tbody>
-            );
-          } else {
-
-            return (
-              <tbody key={index}>
-                <tr className="border-2 border-black">
-                <td className="border-2 border-black text-sm text-center"> {currentIndex}</td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                </tr>
-              </tbody>
-              );
-            }
-          })}
+        if (
+          selectedDate.getDay() !== 6 &&
+          selectedDate.getDay() !== 0 &&
+          selectedDate.getFullYear() === date_year &&
+          selectedDate.getMonth() + 1 === date_month &&
+          matchingDate &&
+          attendance &&
+          attendance[0].Name === matchingDate.Name
+        ) {
+          return (
+            <tbody key={index}>
+              <tr className="border-2 border-black">
+                <td className="border-2 border-black text-sm text-center">{currentIndex}</td>
+                <td className="border-2 border-black text-sm text-center">{matchingDate.AM_In}</td>
+                <td className="border-2 border-black text-sm text-center">{matchingDate.AM_Out}</td>
+                <td className="border-2 border-black text-sm text-center">{matchingDate.PM_In}</td>
+                <td className="border-2 border-black text-sm text-center">{matchingDate.PM_Out}</td>
+                <td className="border-2 border-black text-sm text-center"></td>
+                <td className="border-2 border-black text-sm text-center"></td>
+              </tr>
+            </tbody>
+                  );
+                } else {
+                  return (
+                    <tbody key={index}>
+                      <tr className="border-2 border-black">
+                      <td className="border-2 border-black text-sm text-center"> {currentIndex}</td>
+                        <td className="border-2 border-black text-sm text-center"></td>
+                        <td className="border-2 border-black text-sm text-center"></td>
+                        <td className="border-2 border-black text-sm text-center"></td>
+                        <td className="border-2 border-black text-sm text-center"></td>
+                        <td className="border-2 border-black text-sm text-center"></td>
+                        <td className="border-2 border-black text-sm text-center"></td>
+                      </tr>
+                    </tbody>
+                    );
+                  }
+                })}
         </table>
         <div className="text-center text-sm"> [T]-Travel [L]-Leave [H]-Holiday [OB]- Official Business </div>
         <hr className="border-black border-2" />
@@ -274,42 +266,44 @@ if (attendanceDate) {
           return dayNumber === currentIndex;
         });
 
-  if (
-    selectedDate.getDay() !== 6 &&
-    selectedDate.getDay() !== 0 &&
-    selectedDate.getFullYear() === date_year &&
-    selectedDate.getMonth() + 1 === date_month &&
-    matchingDate
-  ) {
-    return (
-      <tbody key={index}>
-        <tr className="border-2 border-black">
-          <td className="border-2 border-black text-sm text-center">{currentIndex}</td>
-          <td className="border-2 border-black text-sm text-center">{matchingDate.AM_In}</td>
-          <td className="border-2 border-black text-sm text-center">{matchingDate.AM_Out}</td>
-          <td className="border-2 border-black text-sm text-center">{matchingDate.PM_In}</td>
-          <td className="border-2 border-black text-sm text-center">{matchingDate.PM_Out}</td>
-          <td className="border-2 border-black text-sm text-center"></td>
-          <td className="border-2 border-black text-sm text-center"></td>
-        </tr>
-      </tbody>
-            );
-          } else {
-            return (
-              <tbody key={index}>
-                <tr className="border-2 border-black">
+        if (
+          selectedDate.getDay() !== 6 &&
+          selectedDate.getDay() !== 0 &&
+          selectedDate.getFullYear() === date_year &&
+          selectedDate.getMonth() + 1 === date_month &&
+          matchingDate &&
+          attendance &&
+          attendance[0].Name === matchingDate.Name
+        ) {
+          return (
+            <tbody key={index}>
+              <tr className="border-2 border-black">
                 <td className="border-2 border-black text-sm text-center">{currentIndex}</td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                  <td className="border-2 border-black text-sm text-center"></td>
-                </tr>
-              </tbody>
-              );
-            }
-          })}
+                <td className="border-2 border-black text-sm text-center">{matchingDate.AM_In}</td>
+                <td className="border-2 border-black text-sm text-center">{matchingDate.AM_Out}</td>
+                <td className="border-2 border-black text-sm text-center">{matchingDate.PM_In}</td>
+                <td className="border-2 border-black text-sm text-center">{matchingDate.PM_Out}</td>
+                <td className="border-2 border-black text-sm text-center"></td>
+                <td className="border-2 border-black text-sm text-center"></td>
+              </tr>
+            </tbody>
+                  );
+                } else {
+                  return (
+                    <tbody key={index}>
+                      <tr className="border-2 border-black">
+                      <td className="border-2 border-black text-sm text-center"> {currentIndex}</td>
+                        <td className="border-2 border-black text-sm text-center"></td>
+                        <td className="border-2 border-black text-sm text-center"></td>
+                        <td className="border-2 border-black text-sm text-center"></td>
+                        <td className="border-2 border-black text-sm text-center"></td>
+                        <td className="border-2 border-black text-sm text-center"></td>
+                        <td className="border-2 border-black text-sm text-center"></td>
+                      </tr>
+                    </tbody>
+                    );
+                  }
+                })}
         </table>
         <div className="text-center text-sm"> [T]-Travel [L]-Leave [H]-Holiday [OB]- Official Business </div>
         <hr className="border-black border-2" />
