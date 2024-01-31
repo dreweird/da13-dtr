@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["views"]
 }
 
 datasource db {
@@ -12,7 +13,7 @@ model attendance {
   Department  String? @db.VarChar(11)
   Name        String? @db.VarChar(12)
   No_         Int?    @map("No.")
-  Date_Time   String? @map("Date/Time") @db.VarChar(22)
+  Date_Time   String? @db.VarChar(22)
   Status      String? @db.VarChar(8)
   Location_ID Int?    @map("Location ID")
   ID_Number   String? @map("ID Number") @db.VarChar(10)
