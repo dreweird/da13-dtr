@@ -25,7 +25,7 @@ const index = () => {
     return dates;
   };
 
-  const attendanceDate = attendance && attendance[0].Date;
+  const attendanceDate = attendance && attendance[1].Date;
 
 let date_month, date_year, date_day;
 
@@ -168,7 +168,7 @@ if (attendanceDate) {
       </tbody>
             );
           } else {
-            // Render an empty row or handle the case when the conditions are not met
+
             return (
               <tbody key={index}>
                 <tr className="border-2 border-black">
@@ -266,13 +266,13 @@ if (attendanceDate) {
         </thead>
 
         {getDatesInRange(d1, d2).map(function (item, index) {
-  const startIndex = selectedDays === '16-31' ? 16 : 1;
-  const currentIndex = index + startIndex;
+        const startIndex = selectedDays === '16-31' ? 16 : 1;
+        const currentIndex = index + startIndex;
 
-  const matchingDate = attendance && attendance.find(day => {
-    const dayNumber = new Date(day.Date).getDate();
-    return dayNumber === currentIndex;
-  });
+        const matchingDate = attendance && attendance.find(day => {
+          const dayNumber = new Date(day.Date).getDate();
+          return dayNumber === currentIndex;
+        });
 
   if (
     selectedDate.getDay() !== 6 &&
@@ -283,7 +283,6 @@ if (attendanceDate) {
   ) {
     return (
       <tbody key={index}>
-        {/* Render the row with data */}
         <tr className="border-2 border-black">
           <td className="border-2 border-black text-sm text-center">{currentIndex}</td>
           <td className="border-2 border-black text-sm text-center">{matchingDate.AM_In}</td>
@@ -296,11 +295,10 @@ if (attendanceDate) {
       </tbody>
             );
           } else {
-            // Render an empty row or handle the case when the conditions are not met
             return (
               <tbody key={index}>
                 <tr className="border-2 border-black">
-                <td className="border-2 border-black text-sm text-center"> {currentIndex}</td>
+                <td className="border-2 border-black text-sm text-center">{currentIndex}</td>
                   <td className="border-2 border-black text-sm text-center"></td>
                   <td className="border-2 border-black text-sm text-center"></td>
                   <td className="border-2 border-black text-sm text-center"></td>
