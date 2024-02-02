@@ -7,7 +7,7 @@ const Navbar = () => {
   return (
 
     
-    <header className="flex items-center p-3 flex-wrap text-white bg-blue-700 print:hidden">
+    <header className="flex items-center p-3 flex-wrap text-white bg-green-700 print:hidden">
       <div
         id="logo"
         className="lg:text-xl p-2 mr-4 inline-flex items-center font-serif font-bold"
