@@ -18,30 +18,47 @@ const handler = async (req, res) => {
     PM_In_Under,
     PM_Out_Under,
 
-    -- Calculate the total
-    TIME_FORMAT(
-        SEC_TO_TIME(
-            COALESCE(TIME_TO_SEC(AM_In_Late), 0) +
-            COALESCE(TIME_TO_SEC(AM_Out_Late), 0) +
-            COALESCE(TIME_TO_SEC(AM_Out_Under), 0) +
-            COALESCE(TIME_TO_SEC(PM_In_Late), 0) +
-            COALESCE(TIME_TO_SEC(PM_In_Under), 0) +
-            COALESCE(TIME_TO_SEC(PM_Out_Under), 0)
-        ),
-        '%H'
-    ) AS Hours,
+    CASE
+        WHEN AM_In_Late IS NULL
+             AND AM_Out_Late IS NULL
+             AND AM_Out_Under IS NULL
+             AND PM_In_Late IS NULL
+             AND PM_In_Under IS NULL
+             AND PM_Out_Under IS NULL THEN NULL
+        ELSE
+            TIME_FORMAT(
+                SEC_TO_TIME(
+                    COALESCE(TIME_TO_SEC(AM_In_Late), 0) +
+                    COALESCE(TIME_TO_SEC(AM_Out_Late), 0) +
+                    COALESCE(TIME_TO_SEC(AM_Out_Under), 0) +
+                    COALESCE(TIME_TO_SEC(PM_In_Late), 0) +
+                    COALESCE(TIME_TO_SEC(PM_In_Under), 0) +
+                    COALESCE(TIME_TO_SEC(PM_Out_Under), 0)
+                ),
+                '%H'
+            )
+    END AS Hours,
     
-    TIME_FORMAT(
-        SEC_TO_TIME(
-            COALESCE(TIME_TO_SEC(AM_In_Late), 0) +
-            COALESCE(TIME_TO_SEC(AM_Out_Late), 0) +
-            COALESCE(TIME_TO_SEC(AM_Out_Under), 0) +
-            COALESCE(TIME_TO_SEC(PM_In_Late), 0) +
-            COALESCE(TIME_TO_SEC(PM_In_Under), 0) +
-            COALESCE(TIME_TO_SEC(PM_Out_Under), 0)
-        ),
-        '%i'
-    ) AS Minutes
+    CASE
+        WHEN AM_In_Late IS NULL
+             AND AM_Out_Late IS NULL
+             AND AM_Out_Under IS NULL
+             AND PM_In_Late IS NULL
+             AND PM_In_Under IS NULL
+             AND PM_Out_Under IS NULL THEN NULL
+        ELSE
+            TIME_FORMAT(
+                SEC_TO_TIME(
+                    COALESCE(TIME_TO_SEC(AM_In_Late), 0) +
+                    COALESCE(TIME_TO_SEC(AM_Out_Late), 0) +
+                    COALESCE(TIME_TO_SEC(AM_Out_Under), 0) +
+                    COALESCE(TIME_TO_SEC(PM_In_Late), 0) +
+                    COALESCE(TIME_TO_SEC(PM_In_Under), 0) +
+                    COALESCE(TIME_TO_SEC(PM_Out_Under), 0)
+                ),
+                '%i'
+            )
+    END AS Minutes
 
 FROM (
     SELECT
@@ -126,7 +143,6 @@ FROM (
         END AS PM_Out_Under
 
     FROM (
-        -- Your existing query here
         SELECT
             DATE_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%Y-%m-%d') AS Date,
             MONTH(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p')) AS Month,
@@ -134,8 +150,8 @@ FROM (
             Name AS Name,
             MIN(CASE WHEN Status = 'C/In' AND TIME_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%H:%i') BETWEEN '04:00' AND '09:30' THEN TIME_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%h:%i %p') END) AS AM_In,
             MIN(CASE WHEN Status = 'Out Back' AND TIME_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%H:%i') BETWEEN '10:00' AND '13:00' THEN TIME_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%h:%i %p') END) AS AM_Out,
-            MIN(CASE WHEN Status = 'C/In' AND TIME_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%H:%i') BETWEEN '11:00' AND '15:00' THEN TIME_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%h:%i %p') END) AS PM_In,
-            MIN(CASE WHEN Status = 'Out' AND TIME_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%H:%i') BETWEEN '14:00' AND '23:00' THEN TIME_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%h:%i %p') END) AS PM_Out
+            MIN(CASE WHEN Status = 'C/In' AND TIME_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%H:%i') BETWEEN '11:00' AND '16:00' THEN TIME_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%h:%i %p') END) AS PM_In,
+            MIN(CASE WHEN Status = 'Out' AND TIME_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%H:%i') BETWEEN '13:00' AND '23:00' THEN TIME_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%h:%i %p') END) AS PM_Out
         FROM
             attendance
         GROUP BY
@@ -143,7 +159,7 @@ FROM (
         ORDER BY
             Date, Name
     ) AS Subquery
-) AS FinalResult;`;
+) AS FinalResult`;
 
     res.status(200).json(pip);
 };
