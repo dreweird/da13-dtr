@@ -144,16 +144,16 @@ FROM (
 
     FROM (
         SELECT
-            DATE_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%Y-%m-%d') AS Date,
-            MONTH(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p')) AS Month,
-            YEAR(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p')) AS Year,
+            DATE_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%Y-%m-%d') AS Date,
+            MONTH(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p')) AS Month,
+            YEAR(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p')) AS Year,
             Name AS Name,
-            MIN(CASE WHEN Status = 'C/In' AND TIME_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%H:%i') BETWEEN '04:00' AND '09:30' THEN TIME_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%h:%i %p') END) AS AM_In,
-            MIN(CASE WHEN Status = 'Out Back' AND TIME_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%H:%i') BETWEEN '10:00' AND '13:00' THEN TIME_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%h:%i %p') END) AS AM_Out,
-            MIN(CASE WHEN Status = 'C/In' AND TIME_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%H:%i') BETWEEN '11:00' AND '16:00' THEN TIME_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%h:%i %p') END) AS PM_In,
-            MIN(CASE WHEN Status = 'Out' AND TIME_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%H:%i') BETWEEN '13:00' AND '23:00' THEN TIME_FORMAT(STR_TO_DATE(Date_Time, '%d/%m/%Y %h:%i:%s %p'), '%h:%i %p') END) AS PM_Out
+            MIN(CASE WHEN checktype = 'C/In' AND TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%H:%i') BETWEEN '02:00' AND '11:00' THEN TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%h:%i %p') END) AS AM_In,
+            MIN(CASE WHEN checktype = 'Out' AND TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%H:%i') BETWEEN '09:00' AND '14:00' THEN TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%h:%i %p') END) AS AM_Out,
+            MIN(CASE WHEN checktype = 'Out Back' AND TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%H:%i') BETWEEN '10:00' AND '16:00' THEN TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%h:%i %p') END) AS PM_In,
+            MIN(CASE WHEN checktype = 'C/Out' AND TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%H:%i') BETWEEN '13:00' AND '23:00' THEN TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%h:%i %p') END) AS PM_Out
         FROM
-            attendance
+            inoutdata
         GROUP BY
             Date, Month, Year, Name
         ORDER BY
