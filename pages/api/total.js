@@ -139,6 +139,8 @@ FROM (
                 MIN(CASE WHEN checktype = 'C/Out' AND TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%H:%i') BETWEEN '13:00' AND '23:00' THEN TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%h:%i %p') END) AS PM_Out
             FROM
                 inoutdata
+            WHERE
+                Name = "Jeff Alaan"
             GROUP BY
                 Date, Month, Year, Name
             ORDER BY

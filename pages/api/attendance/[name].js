@@ -2,6 +2,8 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const handler = async (req, res) => {
+    const name = req.query.name;
+    console.log(name)
     const pip = await prisma.$queryRaw`SELECT
     Date,
     Month,
@@ -122,7 +124,7 @@ FROM (
             WHEN PM_In IS NOT NULL AND TIME_FORMAT(STR_TO_DATE(PM_In, '%h:%i %p'), '%H:%i') < STR_TO_DATE('12:31', '%H:%i') THEN
                 TIME_FORMAT(
                     SEC_TO_TIME(
-                        TIME_TO_SEC(STR_TO_DATE('12:31', '%H:%i')) - TIME_TO_SEC(STR_TO_DATE(PM_In, '%h:%i %p'))
+                        TIME_TO_SEC(STR_TO_DATE('12:30', '%H:%i')) - TIME_TO_SEC(STR_TO_DATE(PM_In, '%h:%i %p'))
                     ),
                     '%H:%i'
                 )
@@ -144,18 +146,18 @@ FROM (
 
     FROM (
         SELECT
-            DATE_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%Y-%m-%d') AS Date,
-            MONTH(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p')) AS Month,
-            YEAR(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p')) AS Year,
-            Name AS Name,
-            MIN(CASE WHEN checktype = 'C/In' AND TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%H:%i') BETWEEN '02:00' AND '11:00' THEN TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%h:%i %p') END) AS AM_In,
-            MIN(CASE WHEN checktype = 'Out' AND TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%H:%i') BETWEEN '09:00' AND '14:00' THEN TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%h:%i %p') END) AS AM_Out,
-            MIN(CASE WHEN checktype = 'Out Back' AND TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%H:%i') BETWEEN '10:00' AND '16:00' THEN TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%h:%i %p') END) AS PM_In,
-            MIN(CASE WHEN checktype = 'C/Out' AND TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%H:%i') BETWEEN '13:00' AND '23:00' THEN TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%h:%i %p') END) AS PM_Out
-        FROM
-            inoutdata
+        DATE_FORMAT(STR_TO_DATE(date, '%d-%m-%Y'), '%Y-%m-%d') AS Date,
+        MONTH(STR_TO_DATE(date, '%d-%m-%Y')) AS Month,
+        YEAR(STR_TO_DATE(date, '%d-%m-%Y')) AS Year,
+            MIN(CASE WHEN punch_state = 'Check In' AND TIME_FORMAT(STR_TO_DATE(time, '%H:%i'), '%H:%i') BETWEEN '02:00' AND '11:00' THEN TIME_FORMAT(STR_TO_DATE(time, '%H:%i'), '%h:%i %p') END) AS AM_In,
+            MIN(CASE WHEN punch_state = 'Break Out' AND TIME_FORMAT(STR_TO_DATE(time, '%H:%i'), '%H:%i') BETWEEN '09:00' AND '14:00' THEN TIME_FORMAT(STR_TO_DATE(time, '%H:%i'), '%h:%i %p') END) AS AM_out,
+            MIN(CASE WHEN punch_state = 'Break In' AND TIME_FORMAT(STR_TO_DATE(time, '%H:%i'), '%H:%i') BETWEEN '10:00' AND '16:00' THEN TIME_FORMAT(STR_TO_DATE(time, '%H:%i'), '%h:%i %p') END) AS PM_in,
+            MIN(CASE WHEN punch_state = 'Check Out' AND TIME_FORMAT(STR_TO_DATE(time, '%H:%i'), '%H:%i') BETWEEN '13:00' AND '23:00' THEN TIME_FORMAT(STR_TO_DATE(time, '%H:%i'), '%h:%i %p') END) AS PM_out,
+        Name AS Name
+    FROM
+    inoutdata2
         WHERE
-            Name = "Jeff Alaan"
+            Name = ${name}
         GROUP BY
             Date, Month, Year, Name
         ORDER BY
@@ -167,3 +169,15 @@ FROM (
 };
 
 export default handler;
+
+// SELECT
+// DATE_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%Y-%m-%d') AS Date,
+// MONTH(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p')) AS Month,
+// YEAR(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p')) AS Year,
+// Name AS Name,
+// MIN(CASE WHEN checktype = 'C/In' AND TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%H:%i') BETWEEN '02:00' AND '11:00' THEN TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%h:%i %p') END) AS AM_In,
+// MIN(CASE WHEN checktype = 'Out' AND TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%H:%i') BETWEEN '09:00' AND '14:00' THEN TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%h:%i %p') END) AS AM_Out,
+// MIN(CASE WHEN checktype = 'Out Back' AND TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%H:%i') BETWEEN '10:00' AND '16:00' THEN TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%h:%i %p') END) AS PM_In,
+// MIN(CASE WHEN checktype = 'C/Out' AND TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%H:%i') BETWEEN '13:00' AND '23:00' THEN TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%h:%i %p') END) AS PM_Out
+// FROM
+// inoutdata

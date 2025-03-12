@@ -10,6 +10,7 @@ const index = () => {
   const [selectedDays, setSelectedDays] = useState("All");
   const [attendance, setAttendance] = useState([]);
   const [time, setTime] = useState([]);
+  const [names, setNames] = useState([]);
 
 
   const metaInfo = {
@@ -29,21 +30,35 @@ const index = () => {
   };
 
 
-  const dtr_view = async () => {
-    try {
-      const response = await fetch("/api/attendance_view");
-      const json = await response.json();
-      setAttendance(json);
-    } catch (error) {
-      console.error("Error fetching attendance data:", error);
-    }
-  };
+  // const dtr_view = async () => {
+  //   try {
+  //     const response = await fetch("/api/attendance_view");
+  //     const json = await response.json();
+  //     setAttendance(json);
+  //     console.log(json)
+  //   } catch (error) {
+  //     console.error("Error fetching attendance data:", error);
+  //   }
+  // };
 
-  const total_view = async () => {
+  
+
+  // const total_view = async () => {
+  //   try {
+  //     const response = await fetch("/api/total");
+  //     const json = await response.json();
+  //     setTime(json);
+  //   } catch (error) {
+  //     console.error("Error fetching attendance data:", error);
+  //   }
+  // };
+
+  const name_select = async () => {
     try {
-      const response = await fetch("/api/total");
+      const response = await fetch("/api/getdistinctname");
       const json = await response.json();
-      setTime(json);
+      setNames(json);
+      console.log(json)
     } catch (error) {
       console.error("Error fetching attendance data:", error);
     }
@@ -51,8 +66,9 @@ const index = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await dtr_view();
-      await total_view();
+      // await dtr_view();
+      // await total_view();
+      await name_select()
     };
     fetchData();
   }, [selectedDate, selectedDays]);
@@ -89,7 +105,6 @@ const index = () => {
   };
   
   
-
   const renderTableBody = () => {
     return getDatesInRange(d1, d2).map((item, index) => {
       const startIndex = selectedDays === '16-31' ? 16 : 1;
@@ -177,12 +192,40 @@ const index = () => {
       d2 = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), lastDay.getDate());
   }
 
+  const handleChange = async (event) => {
+    console.log(event.target.value);
+    const name = event.target.value;
+    try {
+      const response = await fetch(`/api/attendance/${name}`);
+      const json = await response.json();
+       setAttendance(json);
+     // console.log(json)
+    } catch (error) {
+      console.error("Error fetching attendance data:", error);
+    }
+    try {
+      const response = await fetch(`/api/total/${name}`);
+      const json = await response.json();
+      setTime(json);
+    } catch (error) {
+      console.error("Error fetching attendance data:", error);
+    }
+  };
+
   return (
     <Layout className="" metaInfo={metaInfo}>
+      <select name="mfo_id" 
+          className="bg-gray-50 border print:hidden border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          onChange={handleChange}
+        >
+          <option value="">Select Employee Name</option>
+          {names.map((x, key) => (
+            <option key={key} value={x.name}>
+              {x.name}
+            </option>
+          ))}
+       </select>
       <div className="grid gap-x-2 gap-y-4 grid-cols-2">
-
-
-
         <div className="w-full">
           <span className="text-sm mb-5 w-full">CIVIL SERVICE FORM NO.48 </span>
           <div className="font-bold text-xl text-center"> Daily Time Record</div>
@@ -267,16 +310,16 @@ const index = () => {
           </div>
           <div className="text-lg text-center mt-2">{attendance && attendance[0]?.Name}</div>
           <hr className="border-black border-2" />
-          <div className="text-sm mb-5">Verified as to the prescribed office hours.</div>
-          <style jsx global>{`
+          <div className="text-sm mb-10">Verified as to the prescribed office hours.</div>
+          {/* <style jsx global>{`
             @media print {
               .page-break-after-always {
                 page-break-after: always;
                 margin: 0;
               }
             }
-          `}</style>
-          <hr className="border-black border-1 page-break-after-always" />
+          `}</style> */}
+          <hr className="border-black border-1 page-break-after-always mt-6" />
         </div>
 
         <div className="w-full">
@@ -363,16 +406,16 @@ const index = () => {
           </div>
           <div className="text-lg text-center mt-2">{attendance && attendance[0]?.Name}</div>
           <hr className="border-black border-2" />
-          <div className="text-sm mb-5">Verified as to the prescribed office hours.</div>
-          <style jsx global>{`
+          <div className="text-sm mb-10">Verified as to the prescribed office hours.</div>
+          {/* <style jsx global>{`
             @media print {
               .page-break-after-always {
                 page-break-after: always;
                 margin: 0;
               }
             }
-          `}</style>
-          <hr className="border-black border-1 page-break-after-always" />
+          `}</style> */}
+          <hr className="border-black border-1 page-break-after-always mt-6" />
         </div>
 
       </div>
