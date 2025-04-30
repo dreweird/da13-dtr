@@ -16,7 +16,6 @@ FROM (
         Date,
         Month,
         Year,
-        Name,
         AM_In,
         AM_Out,
         PM_In,
@@ -50,7 +49,6 @@ FROM (
             Date,
             Month,
             Year,
-            Name,
             AM_In,
             AM_Out,
             PM_In,
@@ -130,27 +128,26 @@ FROM (
         FROM (
             -- Your existing query here
             SELECT
-                DATE_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%Y-%m-%d') AS Date,
-                MONTH(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p')) AS Month,
-                YEAR(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p')) AS Year,
-                Name AS Name,
-                MIN(CASE WHEN checktype = 'C/In' AND TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%H:%i') BETWEEN '02:00' AND '11:00' THEN TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%h:%i %p') END) AS AM_In,
-                MIN(CASE WHEN checktype = 'Out' AND TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%H:%i') BETWEEN '09:00' AND '14:00' THEN TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%h:%i %p') END) AS AM_Out,
-                MIN(CASE WHEN checktype = 'Out Back' AND TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%H:%i') BETWEEN '10:00' AND '16:00' THEN TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%h:%i %p') END) AS PM_In,
-                MIN(CASE WHEN checktype = 'C/Out' AND TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%H:%i') BETWEEN '13:00' AND '23:00' THEN TIME_FORMAT(STR_TO_DATE(CHECKTIME, '%d/%m/%Y %h:%i %p'), '%h:%i %p') END) AS PM_Out
+                   DATE_FORMAT(STR_TO_DATE(date, '%Y-%m-%d'), '%Y-%m-%d') AS Date,
+        MONTH(STR_TO_DATE(date, '%Y-%m-%d')) AS Month,
+        YEAR(STR_TO_DATE(date, '%Y-%m-%d')) AS Year,
+            MIN(CASE WHEN punch_state = 1 AND TIME_FORMAT(STR_TO_DATE(time, '%H:%i'), '%H:%i') BETWEEN '02:00' AND '11:00' THEN TIME_FORMAT(STR_TO_DATE(time, '%H:%i'), '%h:%i %p') END) AS AM_In,
+            MIN(CASE WHEN punch_state = 2 AND TIME_FORMAT(STR_TO_DATE(time, '%H:%i'), '%H:%i') BETWEEN '09:00' AND '14:00' THEN TIME_FORMAT(STR_TO_DATE(time, '%H:%i'), '%h:%i %p') END) AS AM_out,
+            MIN(CASE WHEN punch_state = 3 AND TIME_FORMAT(STR_TO_DATE(time, '%H:%i'), '%H:%i') BETWEEN '10:00' AND '16:00' THEN TIME_FORMAT(STR_TO_DATE(time, '%H:%i'), '%h:%i %p') END) AS PM_in,
+            MIN(CASE WHEN punch_state = 4 AND TIME_FORMAT(STR_TO_DATE(time, '%H:%i'), '%H:%i') BETWEEN '13:00' AND '23:00' THEN TIME_FORMAT(STR_TO_DATE(time, '%H:%i'), '%h:%i %p') END) AS PM_out
             FROM
-                inoutdata
+                inoutdata2
             WHERE
-                Name = ${name}
+                emp_id = ${name}
             GROUP BY
-                Date, Month, Year, Name
+                Date, Month, Year
             ORDER BY
-                Date, Name
+                Date
         ) AS Subquery
     ) AS IntermediateResult
 ) AS GroupedResult
 GROUP BY
-    Month, Year`;
+    Month, Year;`;
 
     res.status(200).json(pip);
 };

@@ -11,6 +11,8 @@ const index = () => {
   const [attendance, setAttendance] = useState([]);
   const [time, setTime] = useState([]);
   const [names, setNames] = useState([]);
+  const [filteredNames, setFilteredNames] = useState([]);
+  
 
 
   const metaInfo = {
@@ -58,7 +60,6 @@ const index = () => {
       const response = await fetch("/api/getdistinctname");
       const json = await response.json();
       setNames(json);
-      console.log(json)
     } catch (error) {
       console.error("Error fetching attendance data:", error);
     }
@@ -106,25 +107,35 @@ const index = () => {
   
   
   const renderTableBody = () => {
+
+    let year = selectedDate.getFullYear();
+    let month = selectedDate.getMonth() + 1; // Months are zero-based in JavaScript
+
+    const filteredDate = attendance.filter(day => day.Year === year && day.Month === month);
+    // console.log(filteredDate, "filteredDate");
+
     return getDatesInRange(d1, d2).map((item, index) => {
       const startIndex = selectedDays === '16-31' ? 16 : 1;
       const currentIndex = index + startIndex;
 
-      const matchingDate = attendance.find(day => {
+      const matchingDate = filteredDate.find(day => {
         const dayNumber = new Date(day.Date).getDate();
         return dayNumber === currentIndex;
       });
 
       const isMatchingMonthAndYear =
-        selectedDate.getFullYear() === (attendance[0]?.Year || 0) &&
-        selectedDate.getMonth() + 1 === (attendance[0]?.Month || 0);
+        selectedDate.getFullYear() === (filteredDate[0]?.Year || 0) &&
+        selectedDate.getMonth() + 1 === (filteredDate[0]?.Month || 0);
+
+       // console.log(isMatchingMonthAndYear, "ismatchingMonthAndYear")
+       // only one month will display because of the first result of attendance
 
       if (
-        selectedDate.getDay() !== 6 &&
-        selectedDate.getDay() !== 0 &&
-        attendance.length > 0 &&
+        item.getDay() !== 6 &&
+        item.getDay() !== 0 &&
+        filteredDate.length > 0 &&
         isMatchingMonthAndYear &&
-        attendance[0].Name === matchingDate?.Name
+        filteredDate[0].Name === matchingDate?.Name
       ) {
         return (
           <tbody key={index}>
@@ -193,34 +204,55 @@ const index = () => {
   }
 
   const handleChange = async (event) => {
-    console.log(event.target.value);
+   // console.log(event.target.value);
     const name = event.target.value;
     try {
       const response = await fetch(`/api/attendance/${name}`);
       const json = await response.json();
        setAttendance(json);
-     // console.log(json)
+     //  console.log(json)
     } catch (error) {
       console.error("Error fetching attendance data:", error);
     }
     try {
       const response = await fetch(`/api/total/${name}`);
       const json = await response.json();
-      setTime(json);
+      const filteredTime = json.filter(item => item.Month === selectedDate.getMonth() + 1 && item.Year === selectedDate.getFullYear());
+      setTime(filteredTime);
+      console.log(filteredTime, "filteredTime");
     } catch (error) {
       console.error("Error fetching attendance data:", error);
     }
   };
 
+  const handleChangeFilter = (event) => {
+   // console.log(event.target.value);
+    const result = names.filter(item => item.office === event.target.value);
+    setFilteredNames(result);
+   // console.log(filteredNames);
+
+   };
+
   return (
     <Layout className="" metaInfo={metaInfo}>
-      <select name="mfo_id" 
+       <select
+          className="bg-gray-50 border print:hidden border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          onChange={handleChangeFilter}
+        >
+          <option value="">Select Office</option>
+          {[...new Set(names.map(item => item.office))].map((x, key) => (
+            <option key={key} value={x}>
+              {x}
+            </option>
+          ))}
+       </select>
+      <select 
           className="bg-gray-50 border print:hidden border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           onChange={handleChange}
         >
           <option value="">Select Employee Name</option>
-          {names.map((x, key) => (
-            <option key={key} value={x.name}>
+          {filteredNames.map((x, key) => (
+            <option key={key} value={x.id}>
               {x.name}
             </option>
           ))}

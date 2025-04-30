@@ -8,16 +8,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model attendance {
-  id          Int     @id @default(autoincrement())
-  Department  String? @db.VarChar(11)
-  Name        String? @db.VarChar(12)
-  No_         Int?    @map("No.")
-  Date_Time   String? @db.VarChar(22)
-  Status      String? @db.VarChar(8)
-  Location_ID Int?    @map("Location ID")
-  ID_Number   String? @map("ID Number") @db.VarChar(10)
-  Workcode    Int?
-  VerifyCode  String? @db.VarChar(4)
-  CardNo      String? @db.VarChar(10)
+model employee {
+  id     Int    @id @default(autoincrement())
+  name   String @db.VarChar(200)
+  office String @db.VarChar(50)
+}
+
+model inoutdata2 {
+  id          Int    @id @default(autoincrement())
+  emp_id      Int
+  date        String @db.VarChar(50)
+  time        String @db.VarChar(50)
+  punch_state Int
 }
