@@ -12,6 +12,7 @@ const index = () => {
   const [time, setTime] = useState([]);
   const [names, setNames] = useState([]);
   const [filteredNames, setFilteredNames] = useState([]);
+  const [isChecked, setIsChecked] = useState(false);
   
 
 
@@ -54,6 +55,10 @@ const index = () => {
   //     console.error("Error fetching attendance data:", error);
   //   }
   // };
+
+  const handleCheckboxChange = (event) => {
+    setIsChecked(event.target.checked);
+  };
 
   const name_select = async () => {
     try {
@@ -112,7 +117,7 @@ const index = () => {
     let month = selectedDate.getMonth() + 1; // Months are zero-based in JavaScript
 
     const filteredDate = attendance.filter(day => day.Year === year && day.Month === month);
-    // console.log(filteredDate, "filteredDate");
+    console.log(filteredDate, "filteredDate");
 
     return getDatesInRange(d1, d2).map((item, index) => {
       const startIndex = selectedDays === '16-31' ? 16 : 1;
@@ -130,9 +135,31 @@ const index = () => {
        // console.log(isMatchingMonthAndYear, "ismatchingMonthAndYear")
        // only one month will display because of the first result of attendance
 
+       if (
+        isChecked && // Saturday Sunday will not display 
+        filteredDate.length > 0 &&
+        isMatchingMonthAndYear &&
+        filteredDate[0].Name === matchingDate?.Name
+      ) {
+        return (
+          <tbody key={index}>
+            <tr className="border-2 border-black">
+              <td className="border-2 border-black text-sm text-center">{currentIndex}</td>
+              <td className="border-2 border-black text-sm text-center">{matchingDate?.AM_In}</td>
+              <td className="border-2 border-black text-sm text-center">{matchingDate?.AM_Out}</td>
+              <td className="border-2 border-black text-sm text-center">{matchingDate?.PM_In}</td>
+              <td className="border-2 border-black text-sm text-center">{matchingDate?.PM_Out}</td>
+              <td className="border-2 border-black text-sm text-center">{matchingDate?.Hours}</td>
+              <td className="border-2 border-black text-sm text-center">{matchingDate?.Minutes}</td>
+            </tr>
+          </tbody>
+        );
+      }
+
       if (
         item.getDay() !== 6 &&
         item.getDay() !== 0 &&
+        !isChecked && // Saturday Sunday will display if isChecked is false
         filteredDate.length > 0 &&
         isMatchingMonthAndYear &&
         filteredDate[0].Name === matchingDate?.Name
@@ -179,6 +206,7 @@ const index = () => {
             )}
           </tbody>
         );
+
       }
     });
   };
@@ -257,6 +285,14 @@ const index = () => {
             </option>
           ))}
        </select>
+       <label className="bg-gray-50 border print:hidden border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <input
+          type="checkbox"
+          checked={isChecked}
+          onChange={handleCheckboxChange}
+        />
+        With Weekends 
+      </label>
       <div className="grid gap-x-2 gap-y-4 grid-cols-2">
         <div className="w-full">
           <span className="text-sm mb-5 w-full">CIVIL SERVICE FORM NO.48 </span>
